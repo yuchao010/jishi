@@ -188,6 +188,7 @@ public class OrderServiceImpl implements OrderService {
                     .expiredProbability(expiredProbability)
                     .build()
             );
+            allNumber = expiredNumber = 0;
         }
         return numberAndProbabilityDtoList;
     }
@@ -207,10 +208,15 @@ public class OrderServiceImpl implements OrderService {
         lambdaQueryWrapperDept.orderBy(true,true,Dept::getDeptId);
         List<Dept> deptList = deptMapper.selectList(lambdaQueryWrapperDept);
         for (Dept dept:deptList){
+            lambdaQueryWrapperOrder = new LambdaQueryWrapper<>();
             lambdaQueryWrapperOrder.eq(Order::getHandleDeptId, dept.getDeptId());
             lambdaQueryWrapperOrder.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
             lambdaQueryWrapperOrder.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
             allNumber = orderMapper.selectList(lambdaQueryWrapperOrder).size();
+            lambdaQueryWrapperOrder = new LambdaQueryWrapper<>();
+            lambdaQueryWrapperOrder.eq(Order::getHandleDeptId, dept.getDeptId());
+            lambdaQueryWrapperOrder.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
+            lambdaQueryWrapperOrder.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
             lambdaQueryWrapperOrder.eq(Order::getIsOverdue, 1);
             expiredNumber = orderMapper.selectList(lambdaQueryWrapperOrder).size();
             expiredProbability = Utils.getExpiredProbability(expiredNumber, allNumber);
@@ -240,6 +246,10 @@ public class OrderServiceImpl implements OrderService {
         lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
         lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         allNumber = orderMapper.selectList(lambdaQueryWrapper).size();
+        lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Order::getOrderType, 0);
+        lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
+        lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         lambdaQueryWrapper.eq(Order::getIsOverdue, 1);
         expiredNumber = orderMapper.selectList(lambdaQueryWrapper).size();
         expiredProbability = Utils.getExpiredProbability(expiredNumber, allNumber);
@@ -251,10 +261,15 @@ public class OrderServiceImpl implements OrderService {
                         .build()
         );
 
+        lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Order::getOrderType, 1);
         lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
         lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         allNumber = orderMapper.selectList(lambdaQueryWrapper).size();
+        lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Order::getOrderType, 1);
+        lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
+        lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         lambdaQueryWrapper.eq(Order::getIsOverdue, 1);
         expiredNumber = orderMapper.selectList(lambdaQueryWrapper).size();
         expiredProbability = Utils.getExpiredProbability(expiredNumber, allNumber);
@@ -266,10 +281,15 @@ public class OrderServiceImpl implements OrderService {
                 .build()
         );
 
+        lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(Order::getOrderType, 3);
         lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
         lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         allNumber = orderMapper.selectList(lambdaQueryWrapper).size();
+        lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Order::getOrderType, 3);
+        lambdaQueryWrapper.ge(Order::getCreateTime, LocalDateTime.of(2024, 7, 1, 0, 0, 0));
+        lambdaQueryWrapper.le(Order::getCreateTime, LocalDateTime.of(2024, 8, 1, 0, 0, 0));
         lambdaQueryWrapper.eq(Order::getIsOverdue, 1);
         expiredNumber = orderMapper.selectList(lambdaQueryWrapper).size();
         expiredProbability = Utils.getExpiredProbability(expiredNumber, allNumber);

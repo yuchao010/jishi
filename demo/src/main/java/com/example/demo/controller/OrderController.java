@@ -27,7 +27,10 @@ public class OrderController {
 
     @GetMapping("/post/order/search")
     @ApiOperation("工单全部搜索(分页格式默认)")
-    public Result<List<Order>> selectAll(SelectPageVo selectPageVo){
+    public Result<List<Order>> selectAll(SelectPageVo selectPageVo) throws SelectNoPageVoException {
+        if (selectPageVo.getPageNo() == null || selectPageVo.getPageSize() == null){
+            throw new SelectNoPageVoException("分页参数不能为空");
+        }
         return Result.success(orderService.selectAll(selectPageVo));
     }
 
